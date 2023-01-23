@@ -3,10 +3,9 @@ package account
 import "bank/customers"
 
 type Account struct {
-	AccountHolder customers.Customer
-	AgencyNumber  int
-	AccountNumber int
-	balance       float64
+	AccountHolder               customers.Customer
+	AgencyNumber, AccountNumber int
+	balance                     float64
 }
 
 func (a *Account) CashOut(cashOutAmount float64) string {
