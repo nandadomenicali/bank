@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Account struct {
 	accountHolder string
 	agencyNumber  int
@@ -18,6 +20,21 @@ func (a *Account) cashOut(cashOutAmount float64) string {
 	}
 }
 
-func main() {
+func (a *Account) cashDeposit(depositAmount float64) (string, float64) {
+	if depositAmount > 0 {
+		a.balance += depositAmount
+		return "Deposit made successfully. Your balance is:", a.balance
+	} else {
+		return "Deposit amount cannot be less than 0", a.balance
+	}
+}
 
+func main() {
+	myAccount := Account{}
+	myAccount.accountHolder = "Fernanda"
+	myAccount.balance = 500
+
+	fmt.Println(myAccount.balance)
+	status, value := myAccount.cashDeposit(100)
+	fmt.Println(status, value)
 }
