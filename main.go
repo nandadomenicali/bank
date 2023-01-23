@@ -1,18 +1,22 @@
 package main
 
 import (
-	"bank/account"
+	"bank/accounts"
 	"fmt"
 )
 
+func payInvoice(account verifyAccount, invoiceValue float64) {
+	account.CashOut(invoiceValue)
+}
+
+type verifyAccount interface {
+	CashOut(value float64) string
+}
+
 func main() {
-	fernandaAccount := account.DependentAccount{}
-	fernandoAccount := account.Account{}
-
+	fernandaAccount := accounts.Account{}
 	fernandaAccount.CashDeposit(100)
-	fernandaAccount.CashOut(50)
+	payInvoice(&fernandaAccount, 50)
 
-	fmt.Println(fernandaAccount)
-	fmt.Println(fernandoAccount)
-
+	fmt.Println(fernandaAccount.GetBalance())
 }
