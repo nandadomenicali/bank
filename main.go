@@ -30,7 +30,7 @@ func (a *Account) cashDeposit(depositAmount float64) (string, float64) {
 }
 
 func (a *Account) transfer(transferAmount float64, destinationAccount *Account) bool {
-	if transferAmount < a.balance {
+	if transferAmount < a.balance && transferAmount > 0 {
 		a.balance -= transferAmount
 		destinationAccount.cashDeposit(transferAmount)
 		return true
