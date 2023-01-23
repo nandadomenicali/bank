@@ -29,12 +29,23 @@ func (a *Account) cashDeposit(depositAmount float64) (string, float64) {
 	}
 }
 
-func main() {
-	myAccount := Account{}
-	myAccount.accountHolder = "Fernanda"
-	myAccount.balance = 500
+func (a *Account) transfer(transferAmount float64, destinationAccount *Account) bool {
+	if transferAmount < a.balance {
+		a.balance -= transferAmount
+		destinationAccount.cashDeposit(transferAmount)
+		return true
+	} else {
+		return false
+	}
+}
 
-	fmt.Println(myAccount.balance)
-	status, value := myAccount.cashDeposit(100)
-	fmt.Println(status, value)
+func main() {
+	fernandaAccount := Account{accountHolder: "Fernanda", balance: 500}
+	userTestAccount := Account{accountHolder: "UserTester", balance: 100}
+
+	status := fernandaAccount.transfer(100, &userTestAccount)
+
+	fmt.Println(status)
+	fmt.Println(fernandaAccount)
+	fmt.Println(userTestAccount)
 }
