@@ -1,17 +1,19 @@
 package account
 
+import "bank/customers"
+
 type Account struct {
-	AccountHolder string
+	AccountHolder customers.Customer
 	AgencyNumber  int
 	AccountNumber int
-	Balance       float64
+	balance       float64
 }
 
 func (a *Account) CashOut(cashOutAmount float64) string {
-	cashOut := cashOutAmount > 0 && cashOutAmount <= a.Balance
+	cashOut := cashOutAmount > 0 && cashOutAmount <= a.balance
 
 	if cashOut {
-		a.Balance -= cashOutAmount
+		a.balance -= cashOutAmount
 		return "Cash out made successfully"
 	} else {
 		return "Insufficient funds"
@@ -20,19 +22,23 @@ func (a *Account) CashOut(cashOutAmount float64) string {
 
 func (a *Account) CashDeposit(depositAmount float64) (string, float64) {
 	if depositAmount > 0 {
-		a.Balance += depositAmount
-		return "Deposit made successfully. Your balance is:", a.Balance
+		a.balance += depositAmount
+		return "Deposit made successfully. Your balance is:", a.balance
 	} else {
-		return "Deposit amount cannot be less than 0", a.Balance
+		return "Deposit amount cannot be less than 0", a.balance
 	}
 }
 
 func (a *Account) Transfer(transferAmount float64, destinationAccount *Account) bool {
-	if transferAmount < a.Balance && transferAmount > 0 {
-		a.Balance -= transferAmount
+	if transferAmount < a.balance && transferAmount > 0 {
+		a.balance -= transferAmount
 		destinationAccount.CashDeposit(transferAmount)
 		return true
 	} else {
 		return false
 	}
+}
+
+func (a *Account) GetBalance() float64 {
+	return a.balance
 }
